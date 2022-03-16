@@ -23,9 +23,10 @@ def get_tracks(url):
 	for track in tracks:
 		track_urls.append({
 			"link": f"{BASE_URL}{track.a['href']}",
-			"title": track.find(class_='SongTitle_link__C19Jt'),
-			"artist": track.find(class_='Subtitle_subtitle__k3Fvf')
+			"title": track.find(class_='SongTitle_link__C19Jt').text,
+			"artist": track.find(class_='Subtitle_subtitle__k3Fvf').text
 		})
+	print(track_urls)
 	return track_urls
 
 
