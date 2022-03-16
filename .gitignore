@@ -1,4 +1,5 @@
 env/
 */*.json
+*.json
 .idea/
 *__pycache__/
