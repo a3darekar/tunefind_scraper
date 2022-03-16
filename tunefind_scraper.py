@@ -21,10 +21,13 @@ def get_tracks(url):
 	tracks = soup.find_all("div", attrs={"class": "SongRow_container__0d2_U"})
 	track_urls = []
 	for track in tracks:
+		title = track.find(class_='SongTitle_link__C19Jt').text,
+		artist = track.find(class_='Subtitle_subtitle__k3Fvf').text
+		search = VideosSearch(f"{title} {artist}", limit=1).result()
 		track_urls.append({
-			"link": f"{BASE_URL}{track.a['href']}",
-			"title": track.find(class_='SongTitle_link__C19Jt').text,
-			"artist": track.find(class_='Subtitle_subtitle__k3Fvf').text
+			"link": search['result'][0]['link'],
+			"title": title,
+			"artist": artist
 		})
 	return track_urls
 
@@ -61,13 +64,8 @@ def get_seasons(url):
 	return season_urls
 
 
-def get_youtube_links(tracks):
-	if isinstance(tracks, list):
-		print(type(tracks))
-	elif isinstance(tracks, list):
-		print(type(tracks))
-	else:
-		print("incorrect data type:", type(tracks))
+def save_results(tracks):
+	print(tracks)
 
 
 def fetch_links(request_query, content_type, year=None):
@@ -80,6 +78,6 @@ def fetch_links(request_query, content_type, year=None):
 		url = f"{BASE_URL}/show/{request_query}"
 		tracks = get_seasons(url)
 	if tracks:
-		get_youtube_links(tracks)
+		save_results(tracks)
 	else:
 		print("Cannot find specified show/movie in tunefind")
