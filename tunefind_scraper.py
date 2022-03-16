@@ -39,7 +39,7 @@ def get_episodes(season_url):
 	episodes = soup.find_all("h3", attrs={ "class": "EpisodeListItem_title__vXExv"})
 	episode_urls = dict()
 	for episode in episodes:
-		episode_title = episode.a.text
+		episode_title = episode.a.text.replace(' \u00b7 E', 'E').replace(' \u00b7', ' -')
 		episode_url = f"{BASE_URL}{episode.a['href']}"
 		tracks = get_tracks(episode_url)
 		episode_urls[episode_title] = {
@@ -67,7 +67,7 @@ def get_seasons(url):
 
 def save_results(tracks, request_query):
 	with open(f"{request_query}.json", "w") as f:
-		json.dump(tracks, f)
+		json.dump(tracks, f, sort_keys=True, indent=4)
 
 
 def fetch_links(request_query, content_type, year=None):
