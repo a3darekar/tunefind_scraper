@@ -11,7 +11,7 @@ BASE_URL = "https://www.tunefind.com"
 
 content_types = {
 	1: "Movie",
-	2: "Show"
+	2: "TV Show"
 }
 
 
@@ -26,7 +26,6 @@ def get_tracks(url):
 			"title": track.find(class_='SongTitle_link__C19Jt').text,
 			"artist": track.find(class_='Subtitle_subtitle__k3Fvf').text
 		})
-	print(track_urls)
 	return track_urls
 
 
@@ -63,7 +62,12 @@ def get_seasons(url):
 
 
 def get_youtube_links(tracks):
-	pass
+	if isinstance(tracks, list):
+		print(type(tracks))
+	elif isinstance(tracks, list):
+		print(type(tracks))
+	else:
+		print("incorrect data type:", type(tracks))
 
 
 def fetch_links(request_query, content_type, year=None):
@@ -72,7 +76,7 @@ def fetch_links(request_query, content_type, year=None):
 	if content_type == 'Movie':
 		url = f"{BASE_URL}/movie/{request_query}-{year}"
 		tracks = get_tracks(url)
-	elif content_type == 'Show':
+	elif content_type == 'TV Show':
 		url = f"{BASE_URL}/show/{request_query}"
 		tracks = get_seasons(url)
 	if tracks:
