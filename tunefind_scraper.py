@@ -73,13 +73,16 @@ def save_results(tracks, request_query):
 def fetch_links(request_query, content_type, year=None):
 	request_query = request_query.replace(" ", "-").lower()
 	tracks = []
+	content_type = content_types[content_type]
 	if content_type == 'Movie':
 		url = f"{BASE_URL}/movie/{request_query}-{year}"
 		tracks = get_tracks(url)
 	elif content_type == 'TV Show':
 		url = f"{BASE_URL}/show/{request_query}"
 		tracks = get_seasons(url)
-	if tracks:
-		save_results(tracks, request_query)
 	else:
-		print("Cannot find specified show/movie in tunefind")
+		return "Cannot find specified show/movie in tunefind"
+	if tracks:
+		# save_results(tracks, request_query)
+		return tracks, request_query, year, url
+	return "Cannot find specified show/movie in tunefind"
