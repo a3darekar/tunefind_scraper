@@ -31,7 +31,19 @@ def get_tracks(url):
 
 
 def get_episodes(season_url):
-	pass
+	page = requests.get(season_url, headers=headers)
+	soup = BeautifulSoup(page.content, 'html.parser')
+	episodes = soup.select('[class*="EpisodeListItem_title"]')
+	episode_urls = dict()
+	for episode in episodes:
+		episode_id = re.search(r"-[1-9]+", episode.a['href'])[0].replace('-', '')
+		episode_url = f"{BASE_URL}{episode.a['href']}"
+		tracks = get_tracks(episode_url)
+		episode_urls[episode_id] = {
+			"link": episode_url,
+			"tracks": tracks
+		}
+	return episode_urls
 
 
 def get_seasons(url):
