@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scraper</title>
+</head>
+<body>
+	<h3>Tunefinder Scraper</h3>
+    <form action="" method="post">
+    {% csrf_token %}
+	<label for="content_type">Choose content type:</label>
+	<select id="content_type" name="content_type">
+		<option value="1">Movie</option>
+		<option value="2">TV Show</option>
+	</select>
+	<br />
+	<br />
+	<label for="title">Enter Name of Movie/Series: </label>
+	<input id="request_query" type="text" name="request_query" value="{{ current_name }}">
+		<br />
+		<br />
+	<div id="ifYes" style="display: block;">
+	    <label for="year">Year</label>
+		<input type="text" id="year" name="year" /><br />
+	</div>
+		<br />
+		<br />
+		<br />
+
+
+	<input type="submit" value="Scrape">
+
+	<h4>See Scraped data: <a href="{% url 'shows-list' %}">here</a></h4>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function (){
+		$("#content_type").change(function(){
+		var selected_option = $('#content_type').val();
+		console.log(selected_option);
+		if(selected_option == '1'){
+			$("#ifYes").show();
+		}
+		if(selected_option != '1'){
+			$("#ifYes").hide();
+			$("#year").val("");
+
+		}
+	  })
+	});
+</script>
+</body>
+</html>
