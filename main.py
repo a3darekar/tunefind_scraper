@@ -15,7 +15,7 @@ if __name__ == '__main__':
 				release_year = int(input("Enter Year it was released:"))
 				fetch_links(request_query, content_types[content_type], release_year)
 			elif content_type == 2:
-				print("Enter name of the series:")
+				request_query = input("Enter name of the TV series:")
 				print(f"Looking for music from {request_query}")
 				fetch_links(request_query, content_types[content_type])
 			else:
