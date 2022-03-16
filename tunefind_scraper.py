@@ -2,6 +2,10 @@ import re
 
 import requests as requests
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
+
+ua = UserAgent()
+headers = {'User-Agent': ua.random}
 
 BASE_URL = "https://www.tunefind.com"
 
@@ -12,7 +16,17 @@ content_types = {
 
 
 def get_tracks(url):
-	pass
+	page = requests.get(url, headers=headers)
+	soup = BeautifulSoup(page.content, 'html.parser')
+	tracks = soup.find_all("div", attrs={"class": "SongRow_container__0d2_U"})
+	track_urls = []
+	for track in tracks:
+		track_urls.append({
+			"link": f"{BASE_URL}{track.a['href']}",
+			"title": track.find(class_='SongTitle_link__C19Jt'),
+			"artist": track.find(class_='Subtitle_subtitle__k3Fvf')
+		})
+	return track_urls
 
 
 def get_seasons(url):
