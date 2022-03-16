@@ -3,6 +3,7 @@ import requests as requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from youtubesearchpython import VideosSearch
+import json
 
 ua = UserAgent()
 headers = {'User-Agent': ua.random}
@@ -64,8 +65,9 @@ def get_seasons(url):
 	return season_urls
 
 
-def save_results(tracks):
-	print(tracks)
+def save_results(tracks, request_query):
+	with open(f"{request_query}.json", "w") as f:
+		json.dump(tracks, f)
 
 
 def fetch_links(request_query, content_type, year=None):
@@ -78,6 +80,6 @@ def fetch_links(request_query, content_type, year=None):
 		url = f"{BASE_URL}/show/{request_query}"
 		tracks = get_seasons(url)
 	if tracks:
-		save_results(tracks)
+		save_results(tracks, request_query)
 	else:
 		print("Cannot find specified show/movie in tunefind")
