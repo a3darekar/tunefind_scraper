@@ -1,7 +1,9 @@
 from django.shortcuts import render
-
+from rest_framework import viewsets, routers
 from api.models import Movie, MovieTracks, Show, Season, Episode, SeriesTracks
 
+from api.serializers import MovieSerializer, ShowSerializer, MovieTracksSerializer, EpisodeSerializer, SeasonSerializer, \
+	SeriesTracksSerializer
 
 
 # Create your views here.
@@ -35,3 +37,41 @@ def index(request):
 		print(_year, _req)
 	return render(request, 'form.html')
 
+
+class MovieViewSet(viewsets.ModelViewSet):
+	queryset = Movie.objects.all()
+	serializer_class = MovieSerializer
+
+
+class MovieTracksViewSet(viewsets.ModelViewSet):
+	queryset = MovieTracks.objects.all()
+	serializer_class = MovieTracksSerializer
+
+
+class ShowViewSet(viewsets.ModelViewSet):
+	queryset = Show.objects.all()
+	serializer_class = ShowSerializer
+
+
+class SeasonViewSet(viewsets.ModelViewSet):
+	queryset = Season.objects.all()
+	serializer_class = SeasonSerializer
+
+
+class EpisodeViewSet(viewsets.ModelViewSet):
+	queryset = Episode.objects.all()
+	serializer_class = EpisodeSerializer
+
+
+class SeriesTracksViewSet(viewsets.ModelViewSet):
+	queryset = SeriesTracks.objects.all()
+	serializer_class = SeriesTracksSerializer
+
+
+api_router = routers.DefaultRouter(trailing_slash=False)
+api_router.register(r'movies', MovieViewSet, basename='movies')
+api_router.register(r'movie_tracks', MovieTracksViewSet, basename='movie_tracks')
+api_router.register(r'shows', ShowViewSet, basename='shows')
+api_router.register(r'seasons', SeasonViewSet, basename='seasons')
+api_router.register(r'episodes', EpisodeViewSet, basename='episodes')
+api_router.register(r'series_racks', SeriesTracksViewSet, basename='series_racks')
